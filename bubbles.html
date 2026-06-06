@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jollibee Kids Math Academy!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght=700&display=swap');
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #ffcc00; /* Jollibee Yellow */
+            background-image: radial-gradient(#ffd633 20%, transparent 20%), radial-gradient(#ffd633 20%, transparent 20%);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            user-select: none;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            color: #cc0000; /* Jollibee Red */
+            text-shadow: 3px 3px 0px #fff, 5px 5px 0px #aa0000;
+            font-size: 2.8rem;
+            margin: 0;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #cc0000;
+            font-weight: bold;
+            background: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            box-shadow: 0 4px 0 #cc0000;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .game-container {
+            background: #ffffff;
+            border: 8px solid #cc0000;
+            border-radius: 30px;
+            padding: 25px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 12px 0px #990000, 0 20px 25px rgba(0,0,0,0.2);
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #cc0000;
+            margin-bottom: 20px;
+            border-bottom: 4px dashed #ffcc00;
+            padding-bottom: 10px;
+        }
+
+        .order-bill {
+            background: #fff9e6;
+            border: 2px dashed #b38600;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .order-title {
+            font-family: 'Fredoka One', cursive;
+            color: #b38600;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .item-visuals {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            font-size: 3rem;
+            margin: 15px 0;
+            min-height: 80px;
+            flex-wrap: wrap;
+        }
+
+        .math-sign {
+            font-family: 'Fredoka One', cursive;
+            color: #cc0000;
+            font-size: 2.5rem;
+        }
+
+        .equation-text {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.2rem;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .option-btn {
+            font-family: 'Fredoka One', cursive;
+            background: #ffcc00;
+            color: #cc0000;
+            border: 4px solid #cc0000;
+            border-radius: 20px;
+            padding: 15px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #cc0000;
+            transition: all 0.1s ease;
+        }
+
+        .option-btn:active {
+            transform: translateY(6px);
+            box-shadow: none;
+        }
+
+        .option-btn.correct {
+            background: #28a745 !important;
+            color: white !important;
+            border-color: #1e7e34 !important;
+            box-shadow: 0 6px 0 #1e7e34 !important;
+        }
+
+        .option-btn.wrong {
+            background: #dc3545 !important;
+            color: white !important;
+            border-color: #bd2130 !important;
+            box-shadow: 0 6px 0 #bd2130 !important;
+        }
+
+        .feedback {
+            font-size: 1.4rem;
+            font-weight: bold;
+            height: 35px;
+            margin-top: 15px;
+        }
+
+        .next-btn {
+            font-family: 'Fredoka One', cursive;
+            background: #cc0000;
+            color: #fff;
+            border: 4px solid #990000;
+            border-radius: 20px;
+            padding: 12px 30px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #990000;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .next-btn:active {
+            transform: translateY(6px);
+            box-shadow: none;
+        }
+
+        .item-group {
+            display: flex;
+            gap: 4px;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Jollibee</h1>
+        <div class="subtitle">🍟 Kids Math Academy 🍗</div>
+    </div>
+
+    <div class="game-container">
+        <div class="top-bar">
+            <div id="score-box">Stars: ⭐ 0</div>
+            <div id="streak-box">Happy Customers: ❤️ 0</div>
+        </div>
+
+        <div class="order-bill">
+            <div class="order-title" id="order-heading">Counter Order #1</div>
+            
+            <div class="item-visuals">
+                <div id="visual-left" class="item-group">🍗🍗</div>
+                <div id="math-op" class="math-sign">+</div>
+                <div id="visual-right" class="item-group">🍗</div>
+            </div>
+        </div>
+
+        <div id="equation" class="equation-text">2 + 1 = ?</div>
+        
+        <div id="options" class="options-grid">
+            <button class="option-btn">1</button>
+            <button class="option-btn">2</button>
+            <button class="option-btn">3</button>
+            <button class="option-btn">4</button>
+        </div>
+
+        <div id="feedback" class="feedback"></div>
+
+        <button id="next-button" class="next-btn">Next Order ➡️</button>
+    </div>
+
+    <script>
+        const menuItems = [
+            { emoji: "🍗", name: "Chickenjoy" },
+            { emoji: "🍝", name: "Jolly Spaghetti" },
+            { emoji: "🍔", name: "Yumburger" },
+            { emoji: "🍟", name: "Jolly Crispy Fries" },
+            { emoji: "🥧", name: "Peach Mango Pie" },
+            { emoji: "🥤", name: "Float" }
+        ];
+
+        let score = 0;
+        let streak = 0;
+        let num1, num2, operation, correctAns;
+        let currentItem = menuItems[0];
+        let orderNumber = 1;
+
+        const visualLeft = document.getElementById("visual-left");
+        const visualRight = document.getElementById("visual-right");
+        const mathOp = document.getElementById("math-op");
+        const equationText = document.getElementById("equation");
+        const optionsGrid = document.getElementById("options");
+        const feedback = document.getElementById("feedback");
+        const nextButton = document.getElementById("next-button");
+        const scoreBox = document.getElementById("score-box");
+        const streakBox = document.getElementById("streak-box");
+        const orderHeading = document.getElementById("order-heading");
+
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playTone(type) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'right') {
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); 
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); 
+                osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2); 
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.35);
+            } else if (type === 'wrong') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(130, audioCtx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            }
+        }
+
+        function generateQuestion() {
+            feedback.textContent = "";
+            nextButton.style.display = "none";
+            orderHeading.textContent = `Counter Order #${orderNumber}`;
+            
+            currentItem = menuItems[Math.floor(Math.random() * menuItems.length)];
+            operation = Math.random() > 0.4 ? "+" : "-"; 
+
+            if (operation === "+") {
+                num1 = Math.floor(Math.random() * 6) + 1; 
+                num2 = Math.floor(Math.random() * 4) + 1; 
+                correctAns = num1 + num2;
+                mathOp.textContent = "+";
+            } else {
+                num1 = Math.floor(Math.random() * 6) + 4; 
+                num2 = Math.floor(Math.random() * num1) + 1; 
+                correctAns = num1 - num2;
+                mathOp.textContent = "−";
+            }
+
+            visualLeft.textContent = currentItem.emoji.repeat(num1);
+            visualRight.textContent = currentItem.emoji.repeat(num2);
+            equationText.textContent = `${num1} ${mathOp.textContent} ${num2} = ?`;
+
+            generateOptions();
+        }
+
+        function generateOptions() {
+            optionsGrid.innerHTML = "";
+            let choices = [correctAns];
+
+            while (choices.length < 4) {
+                let wrong = correctAns + (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 3) + 1);
+                if (wrong >= 0 && !choices.includes(wrong)) {
+                    choices.push(wrong);
+                }
+            }
+
+            choices.sort(() => Math.random() - 0.5);
+
+            choices.forEach(choice => {
+                const btn = document.createElement("button");
+                btn.classList.add("option-btn");
+                btn.textContent = choice;
+                btn.onclick = () => checkAnswer(choice, btn);
+                optionsGrid.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, selectedBtn) {
+            const buttons = document.querySelectorAll(".option-btn");
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selected === correctAns) {
+                selectedBtn.classList.add("correct");
+                feedback.innerHTML = "<span style='color: #28a745;'>🎉 Bida ang Saya! Correct! 🍗</span>";
+                score += 10;
+                streak++;
+                playTone('right');
+            } else {
+                selectedBtn.classList.add("wrong");
+                feedback.innerHTML = `<span style='color: #dc3545;'>Try again! It was ${correctAns}.</span>`;
+                streak = 0; 
+                playTone('wrong');
+                
+                buttons.forEach(btn => {
+                    if (parseInt(btn.textContent) === correctAns) {
+                        btn.classList.add("correct");
+                    }
+                });
+            }
+
+            scoreBox.textContent = `Stars: ⭐ ${score}`;
+            streakBox.textContent = `Happy Customers: ❤️ ${streak}`;
+            nextButton.style.display = "inline-block";
+        }
+
+        nextButton.onclick = () => {
+            orderNumber++;
+            generateQuestion();
+        };
+
+        generateQuestion();
+    </script>
+</body>
+</html>
